@@ -1,12 +1,23 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
+import styled from "styled-components";
 
-const LoginForm = () => {
+const ButtonWrapper = styled.div`
+	margin-top: 10px;
+`;
+
+const FormWapper = styled(Form)`
+	padding: 10px;
+`;
+
+const LoginForm = ({ setIsLoggedIn }) => {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
 
 	//컴포넌트에 props를 넘겨주는 함수는 useCallback을 써줘야 최적화된다.
+	//함수를 캐싱하는 것 > useCallback
+	//값을 캐싱하는 것 > useMemo
 	const onChangeId = useCallback((e) => {
 		setId(e.target.value);
 	}, []);
@@ -14,9 +25,19 @@ const LoginForm = () => {
 	const onChangePassword = useCallback((e) => {
 		setPassword(e.target.value);
 	}, []);
-
+	// 이걸 스타일에 적용 시켜도 리렌더링 안된다.
+	const style = useMemo(() => ({ marginTop: 10 }), []);
+	const onsubmitForm = useCallback(
+		(e) => {
+			// antd 에서는 이거 사용하면 안된다. onFinish에 자체 적용되어있다.
+			// e.preventDefault()
+			console.log(id, password);
+			setIsLoggedIn(true);
+		},
+		[id, password]
+	);
 	return (
-		<Form>
+		<FormWapper onFinish={onsubmitForm}>
 			<div>
 				<label html="user-id">아이디</label>
 				<br />
@@ -33,7 +54,8 @@ const LoginForm = () => {
 					required
 				/>
 			</div>
-			<div style={{ marginTop: 10 }}>
+			{/* {}==={} false 이기 때문에 <div style={{ marginTop: 10 }}>이렇게 작성하면 리렌더링 된다. styled-component를 적용하면 이를 방지할 수 있다. */}
+			<ButtonWrapper>
 				<Button type="primary" htmlType="submit" loading={false}>
 					로그인
 				</Button>
@@ -42,9 +64,8 @@ const LoginForm = () => {
 						<Button>회원가입</Button>
 					</a>
 				</Link>
-			</div>
-			<div></div>
-		</Form>
+			</ButtonWrapper>
+		</FormWapper>
 	);
 };
 
