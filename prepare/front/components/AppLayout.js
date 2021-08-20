@@ -43,7 +43,7 @@ const AppLayout = ({ children }) => {
 				</Col>
 				<Col xs={24} md={6}>
 					{/* target='_blank' : 새창에서 띄우기 */}
-					{/* rel="noreferrer noopener" 이거까지 적어줘야 보안위협이 사라진다. */}
+					{/* rel="noreferrer noopener" 이거까지 적어줘야 보안위협이 사라진다. 누가 열고, 누가 참조했는지 못알아보게 하는듯?*/}
 					<a
 						href="https://velog.io/@alstjd8826"
 						target="_blank"
