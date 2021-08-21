@@ -2,6 +2,8 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
+import propTypes from "prop-types";
+import useInput from "../hooks/useInput";
 
 const ButtonWrapper = styled.div`
 	margin-top: 10px;
@@ -12,19 +14,9 @@ const FormWapper = styled(Form)`
 `;
 
 const LoginForm = ({ setIsLoggedIn }) => {
-	const [id, setId] = useState("");
-	const [password, setPassword] = useState("");
+	const [id, onChangeId] = useInput("");
+	const [password, onChangePassword] = useInput("");
 
-	//컴포넌트에 props를 넘겨주는 함수는 useCallback을 써줘야 최적화된다.
-	//함수를 캐싱하는 것 > useCallback
-	//값을 캐싱하는 것 > useMemo
-	const onChangeId = useCallback((e) => {
-		setId(e.target.value);
-	}, []);
-
-	const onChangePassword = useCallback((e) => {
-		setPassword(e.target.value);
-	}, []);
 	// 이걸 스타일에 적용 시켜도 리렌더링 안된다.
 	const style = useMemo(() => ({ marginTop: 10 }), []);
 	const onsubmitForm = useCallback(
@@ -68,5 +60,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 		</FormWapper>
 	);
 };
+
+LoginForm.propTypes = { setIsLoggedIn: propTypes.func.isRequired };
 
 export default LoginForm;
