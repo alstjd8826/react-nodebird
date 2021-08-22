@@ -3,6 +3,9 @@ import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
 import propTypes from "prop-types";
+import { useDispatch } from "react-redux";
+
+import { loginAction } from "../reducers";
 import useInput from "../hooks/useInput";
 
 const ButtonWrapper = styled.div`
@@ -13,7 +16,8 @@ const FormWapper = styled(Form)`
 	padding: 10px;
 `;
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
+	const dispatch = useDispatch();
 	const [id, onChangeId] = useInput("");
 	const [password, onChangePassword] = useInput("");
 
@@ -24,7 +28,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 			// antd 에서는 이거 사용하면 안된다. onFinish에 자체 적용되어있다.
 			// e.preventDefault()
 			console.log(id, password);
-			setIsLoggedIn(true);
+			dispatch(loginAction({ id, password }));
 		},
 		[id, password]
 	);

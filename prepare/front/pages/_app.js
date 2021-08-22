@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 //일부만 공통인 애들은 layout에서 관리한다.
 //head를 관리하기 위해서는 head를 불러와야한다.
 import Head from "next/head";
+import wrapper from "../store/configureStore";
 
 const NodeBird = ({ Component }) => {
 	return (
@@ -24,4 +25,4 @@ NodeBird.propTypes = {
 	Component: propTypes.elementType.isRequired,
 };
 
-export default NodeBird;
+export default wrapper.withRedux(NodeBird);

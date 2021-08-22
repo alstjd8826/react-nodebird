@@ -1,18 +1,22 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 // next에서 라우터의 역할을 한다.
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
+import styled from "styled-components";
 // import "antd/dist/antd.css";
 import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
-import styled from "styled-components";
 
 const SearchInput = styled(Input.Search)`
 	vertical-align: middle;
 `;
 const AppLayout = ({ children }) => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	// redux가 있어서 useState를 사용할일이 줄어든다.
+	// const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 	return (
 		<div>
 			<Menu mode="horizontal">
@@ -33,9 +37,12 @@ const AppLayout = ({ children }) => {
 			<Row gutter={8}>
 				<Col xs={24} md={6}>
 					{isLoggedIn ? (
-						<UserProfile setIsLoggedIn={setIsLoggedIn} />
+						//더이상 이렇게 할 필요가 없다.
+						// <UserProfile setIsLoggedIn={setIsLoggedIn} />
+						<UserProfile />
 					) : (
-						<LoginForm setIsLoggedIn={setIsLoggedIn} />
+						// <LoginForm setIsLoggedIn={setIsLoggedIn} />
+						<LoginForm />
 					)}
 				</Col>
 				<Col xs={24} md={12}>
