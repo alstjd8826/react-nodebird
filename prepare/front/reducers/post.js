@@ -37,7 +37,9 @@ export const initialState = {
 	imagePaths: [],
 	postAdded: false,
 };
+
 const ADD_POST = "ADD_POST";
+
 export const addPost = {
 	type: ADD_POST,
 };
@@ -53,17 +55,19 @@ const dummyPost = {
 	Comments: [],
 };
 
-const reducers = (state = initialState, action) => {
+export default (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_POST:
+		case ADD_POST: {
 			return {
 				...state,
 				mainPosts: [dummyPost, ...state.mainPosts],
 				postAdded: true,
 			};
-		default:
-			return state;
+		}
+		default: {
+			return {
+				...state,
+			};
+		}
 	}
 };
-export default reducers;
-// 리듀서의 기본 형태
